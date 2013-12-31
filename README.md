@@ -23,7 +23,7 @@ sfQuery('#headerId').on('load', function(e) {
 
 ###JS SOQL connections
 You can query records in a visualforce page using the *sforce* connection. This is less than ideal because it requires a lot of setup:
-* Handling success and error conditions are not normalized and difficult
+* Handling success and error conditions is not normalized and difficult
 * The records in the response of the native sforce connection are not returned in a clean "query-list" way
 
 sfQuery has 2 methods that normalize and ease the use of this functionality. You can use the static method in the *jQuery.SFQuery* namespace or you can attach a soql query action to an element.
@@ -36,10 +36,14 @@ sfQuery has 2 methods that normalize and ease the use of this functionality. You
 var button = sfQuery('{!$Component.mainForm.mainBlock.mainSection.buttonId}');
 button.click(function() {
 	jQuery.SFQuery.soqlQuery({
-		query: 'Select Id, Name from Account',
+		query: 'Select Id, Name from Account limit 10',
 		success: function(result, state) {
 			sfQuery('#spanElem').html('First account is: ' + result[0].Name);
-		}
+		},
+		error: function(error, source) {
+	        alert('An error has occurred! Contact your SFDC admin for assistance.');
+	        console.log('Query Error: ' + error);
+	    }
 	});
 });
 
@@ -50,10 +54,19 @@ button.click(function() {
 var button = sfQuery('{!$Component.mainForm.mainBlock.mainSection.buttonId}');
 // Call soql query action on click
 button.soqlQuery({
-	query: 'Select Id, Name from Account',
+	query: 'Select Id, Name from Account limit 10',
 	success: function(result, state) {
 		sfQuery('#spanElem').html('First account is: ' + result[0].Name);
-	}
+	},
+	error: function(error, source) {
+        alert('An error has occurred! Contact your SFDC admin for assistance.');
+        console.log('Query Error: ' + error);
+    }
 });
 ```
+
+#####soqlQuery() options
+*query* - The soql query to use.
+*success* - Callback function used for successful query result.
+*error* - Callback function used for unsuccessful query result.
 
