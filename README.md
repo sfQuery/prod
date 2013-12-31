@@ -147,7 +147,7 @@ a specfic keyword! Common examples of this are "@" mentions and hashtags in Chat
 allows you to search for a user to mention in the post. Using sfQuery gives you this same functionality on any input field, with any
 key combination (optional), and using any data objects you want!
 
-Here are some examples:
+Here is a simple example:
 ```Javascript
 /**
 * Let's attach traditional autocomplete functionality to 
@@ -168,5 +168,39 @@ You can see that we used a SOQL query to retrieve the data set. There is a speci
 identifier in the filter which is *{v}*. This string gets replaced with whatever value is in the
 input text field. For example, if you type "Gene Point" into the text field, the resulting query 
 will be *select Id, Name from Account where Name like '%Gene Point%'*
+
+Here is a more advanced example using key combo autocomplete:
+```Javascript
+/**
+* Let's attach key combo autocomplete functionality to 
+* an apex:inputTextAreaField
+**/
+sfQuery('{!$Component.mainForm.mainBlock.mainSection.inputTextAreaFieldId}')
+.sfAutoComplete({
+	query: "Select Id, Name, Owner.Name, Owner.Alias, Owner.Email from Account where Name like '%{v}%'",
+    focusField: 'Id',
+    inputFieldVal: 'Name',
+    combination: ';;',
+    exclude: ['Id'],
+    replace: {
+        'Owner.Name': 'Owner Name',
+        'Owner.Alias': 'Owner Alias',
+        'Owner.Email': 'Owner Email'
+    },
+    onRowClick: function(val) {
+        console.log('Clicked: ' + val);
+    }
+});
+```
+Here we see some new options. The first one is *combination*. This is the key combination used to initiate the
+autocomplete search. When the user types ";;" and a search string, the request is made. We also see the *exclude*
+and *replace* options. The exclude option tells the method to not show that field in the results table. The replace
+option replaces the specified column name with a new string. This is usually used to make a more friendly 
+looking table header. The resulting table would look like this:
+
+| Name       | Owner Name           | Owner Alias  | Owner Email   |
+| ------------- |:-------------:| :-----:|:---------:|
+| Gene Point     | John Smith | jsmith | jsmith@email.com   |
+| McCarthy's Auto     | Steve McCarthy | smccart | smccarthy@email.com   |
 
 
