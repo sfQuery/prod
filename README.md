@@ -147,6 +147,9 @@ a specfic keyword! Common examples of this are "@" mentions and hashtags in Chat
 allows you to search for a user to mention in the post. Using sfQuery gives you this same functionality on any input field, with any
 key combination (optional), and using any data objects you want!
 
+sfQuery has the *sfAutoComplete()* method that allows you to easily add autocomplete to an input text field. You can 
+access this with the element bound action method.
+
 Here is a simple example:
 ```Javascript
 /**
@@ -214,6 +217,16 @@ looking table header. The resulting table would look like this:
 | Name       | Owner Name           | Owner Alias  | Owner Email   |
 | ------------- |:-------------:| :-----:|:---------:|
 | Gene Point     | John Smith | jsmith | jsmith@email.com   |
-| McCarthy's Auto     | Steve McCarthy | smccart | smccarthy@email.com   |
+| McCarthy's Auto     | Steve Jones | sjones | sjones@email.com   |
 
-
+#####sfAutoComplete options
+* query - (Optional) The SOQL query used to retrieve the data set. If this is not set, a controller and methodName must be set.
+* controller - (Optional) This is the name of your Visualforce controller. If this is not set, the query option must be set.
+* methodName - (Optional) The name of the @remoteAction method in the controller. If this is not set, the query option must be set.
+* onRowClick - (Optional) Callback function called when a user clicks a row in the table.
+* focusField - The field which is passed to the onRowClick callback function.
+* inputFieldVal - The field which populates the input text element when a user makes a selection.
+* combination - (Optional) The key combination that the autocomplete action will look for before starting the search.
+* exclude - (Optional) A list of fields to exclude from the result table view.
+* replace - (Optional) An object mapping field -> replace text. The replace text will be put in place of the field name in the table header
+* error - Callback function used for unsuccessful remoting request result.
