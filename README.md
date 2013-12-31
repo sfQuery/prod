@@ -137,3 +137,36 @@ button.vfRemote({
 * timeout - The AJAX request timeout (Default 30 seconds)
 * success - Callback function used for successful remoting request result.
 * error - Callback function used for unsuccessful remoting request result.
+
+###Autocomplete fields
+----------------------
+sfQuery makes it very simple to attach text auto-complete functionality to any input field on a VF page. As a user
+begins typing, a list will appear matching the text of what the user has entered. You can use a SOQL query or remote action
+method to get the data to display. You can also make it so that autocomplete is only triggered when it sees
+a specfic keyword! Common examples of this are "@" mentions and hashtags in Chatter. When a user types "@" in Chatter, it
+allows you to search for a user to mention in the post. Using sfQuery gives you this same functionality on any input field, with any
+key combination (optional), and using any data objects you want!
+
+Here are some examples:
+```Javascript
+/**
+* Let's attach traditional autocomplete functionality to 
+* an apex:inputTextField
+**/
+sfQuery('{!$Component.mainForm.mainBlock.mainSection.inputFieldId}')
+.sfAutoComplete({
+	query: "select Id, Name from Account where Name like '%{v}%'",
+    focusField: 'Id',
+    inputFieldVal: 'Name',
+    onRowClick: function(val) {
+        alert('Clicked: ' + val);
+    }
+});
+```
+It's that easy! The example above shows the most simple way to add autocomplete to an input text field. 
+You can see that we used a SOQL query to retrieve the data set. There is a special
+identifier in the filter which is *{v}*. This string gets replaced with whatever value is in the
+input text field. For example, if you type "Gene Point" into the text field, the resulting query 
+will be *select Id, Name from Account where Name like '%Gene Point%'*
+
+
