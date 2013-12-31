@@ -25,6 +25,7 @@ sfQuery('#headerId').on('load', function(e) {
 ```
 
 ###JS SOQL connections
+----------------------
 You can query records in a visualforce page using the *sforce* connection. This is less than ideal because it requires a lot of setup:
 * Handling success and error conditions is not normalized and difficult
 * The records in the response of the native sforce connection are not returned in a clean "query-list" way
@@ -74,6 +75,7 @@ button.soqlQuery({
 * error - Callback function used for unsuccessful query result.
 
 ###JS Remoting
+----------------------
 *Javascript Remoting [Documentation](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm)*
 
 Javascript remoting for VF/Apex allows you to bring the power of AJAX to your VF pages. The problem is the 
