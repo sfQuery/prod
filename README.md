@@ -1,5 +1,8 @@
 ##sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
-This plugin makes using jQuery with Salesforce extremely simple. It comes bundled with functionality to ease the use of advanced Visualforce features like JS SOQL connections and JS remoting.
+This plugin makes using jQuery with Salesforce extremely simple. It normalizes the way you query 
+for elements in Visualforce. It also comes packed with functionality to ease the use of advanced Visualforce 
+features like JS SOQL connections and JS remoting. The plugin is built on top of jQuery so you have access to everything
+jQuery has to offer as well. All of this is merged into one plugin for SFDC!
 
 ###Querying elements
 ----------------------
@@ -70,5 +73,62 @@ button.soqlQuery({
 * success - Callback function used for successful query result.
 * error - Callback function used for unsuccessful query result.
 
+###JS Remoting
+*Javascript Remoting [Documentation](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm)
 
+Javascript remoting for VF/Apex allows you to bring the power of AJAX to your VF pages. The problem is the 
+same issues that plague the sforce SOQL connection interface also plague the JS remoting interface. 
+* Handling success and error conditions is not normalized and difficult
+* The records in the response of the native remoting connection are not returned in a clean "query-list" way
+* The syntax for remoting is confusing to read and prevents the creation of self documenting code
 
+sfQuery has the *vfRemote()* method that allows you to easily make a remoting call. You can access this in a static context
+in the *jQuery.SFQuery* namespace or with the element bound action method.
+
+```JavaScript
+/**
+* Example using the static method
+**/
+// Get reference to the button
+var button = sfQuery('{!$Component.mainForm.mainBlock.mainSection.buttonId}');
+// Bind a remoting call to the onclick event
+button.click(function() {
+    jQuery.SFQuery.vfRemote({
+        controller: 'PageControllerName', 
+        methodName: 'remoteActionMethodName', 
+        params: ['Epic', 'plugin!'],
+        success: function(res, objInfo) {
+            sfQuery('#spanElem').html(res);
+        },
+        error: function(e) {
+            alert('Error with status code: ' + e.statusCode);
+        }
+    });
+});
+
+/**
+* Example using the element bound method
+**/
+// Get reference to the button
+var button = sfQuery('{!$Component.mainForm.mainBlock.mainSection.buttonId}');
+// Make a remoting call on click
+button.vfRemote({
+	controller: 'PageControllerName', 
+    methodName: 'remoteActionMethodName', 
+    params: ['Epic', 'plugin!'],
+    success: function(res, objInfo) {
+        sfQuery('#spanElem').html(res);
+    },
+    error: function(e) {
+        alert('Error with status code: ' + e.statusCode);
+    }
+});
+```
+
+#####vfRemote options
+* controller - This is the name of your Visualforce controller.
+* methodName - The name of the @remoteAction method in the controller.
+* params - The parameters to pass to the remote action method. This can be a single parameter or an array.
+* timeout - The AJAX request timeout (Default 30 seconds)
+* success - Callback function used for successful remoting request result.
+* error - Callback function used for unsuccessful remoting request result.
