@@ -167,7 +167,14 @@ It's that easy! The example above shows the most simple way to add autocomplete 
 You can see that we used a SOQL query to retrieve the data set. There is a special
 identifier in the filter which is *{v}*. This string gets replaced with whatever value is in the
 input text field. For example, if you type "Gene Point" into the text field, the resulting query 
-will be *select Id, Name from Account where Name like '%Gene Point%'*
+will be *select Id, Name from Account where Name like '%Gene Point%'*. 
+The resulting table would look like this:
+
+| Id       | Name           | 
+| :-------------: |:-------------:| 
+| 000012345xcvbxzxee | Gene Point     | 
+| 000012345xcvbxzxdx | McCarthy's Auto     | 
+
 
 Here is a more advanced example using key combo autocomplete:
 ```Javascript
