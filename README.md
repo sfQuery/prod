@@ -175,6 +175,12 @@ The resulting table would look like this:
 | 000012345xcvbxzxee | Gene Point     | 
 | 000012345xcvbxzxdx | McCarthy's Auto     | 
 
+A user can then scroll through the results and select one to populate the field. The *focusField* option
+tells the method what field you want to get in the *onRowClick()* callback method. In this example, we are
+getting the ID of whatever Account the user selected. The *inputFieldVal* option tells the method what
+field should be used to populate the input field. In this example, the account Name will get
+entered into the input text field when a user selects one.
+
 
 Here is a more advanced example using key combo autocomplete:
 ```Javascript
