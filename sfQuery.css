@@ -1,0 +1,31 @@
+#sf-ac-res-wind {
+    overflow: auto;
+    max-height: 160px;
+}
+.sfquery-ac-table { 
+    position: relative;
+    border: 1px solid #AAA; 
+    border-collapse: collapse; 
+}
+.sfquery-ac-table th, .sfquery-ac-table td { 
+    border: 1px solid #AAA; border-collapse: 
+    collapse; 
+    padding: 2px 
+}
+.sfquery-ac-table-row-hover {
+    background-color: rgba(66,185,245, 0.3);
+    cursor: pointer;
+}
+.sfquery-ac-table tr:first-child:hover {
+    background-color: white;
+    cursor: auto;
+}
+.key-combo-start-window {
+    padding: 3px 6px;
+    color: #cf700b;
+    background-color: #FFF;
+    -moz-box-shadow: 0px 0px 5px #000000;
+    -webkit-box-shadow: 0px 0px 5px #000000;
+    box-shadow: 0px 0px 5px #000000;
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+}
