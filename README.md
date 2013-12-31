@@ -229,4 +229,4 @@ looking table header. The resulting table would look like this:
 * combination - (Optional) The key combination that the autocomplete action will look for before starting the search.
 * exclude - (Optional) A list of fields to exclude from the result table view.
 * replace - (Optional) An object mapping field -> replace text. The replace text will be put in place of the field name in the table header
-* error - Callback function used for unsuccessful remoting request result.
+* error - Callback function called when an error occurs with the request.
