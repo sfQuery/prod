@@ -66,7 +66,7 @@ button.soqlQuery({
 ```
 
 #####soqlQuery() options
-*query - The soql query to use.
-*success - Callback function used for successful query result.
-*error - Callback function used for unsuccessful query result.
+* query - The soql query to use.
+* success - Callback function used for successful query result.
+* error - Callback function used for unsuccessful query result.
 
