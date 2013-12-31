@@ -74,7 +74,7 @@ button.soqlQuery({
 * error - Callback function used for unsuccessful query result.
 
 ###JS Remoting
-*Javascript Remoting [Documentation](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm)
+*Javascript Remoting [Documentation](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm)*
 
 Javascript remoting for VF/Apex allows you to bring the power of AJAX to your VF pages. The problem is the 
 same issues that plague the sforce SOQL connection interface also plague the JS remoting interface. 
