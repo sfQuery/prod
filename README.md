@@ -1,24 +1,35 @@
 ##sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
-This plugin makes using jQuery with Salesforce extremely simple. It normalizes the way you query 
+There's no arguing that jQuery is one of the most valuable javascript libraries available. The 
+*sfQuery* plugin allows you to easily integrate jQuery with your Visualforce pages. It normalizes the way you query 
 for elements in Visualforce. It also comes packed with functionality to ease the use of advanced Visualforce 
 features like JS SOQL connections and JS remoting. The plugin is built on top of jQuery so you have access to everything
-jQuery has to offer as well. All of this is merged into one plugin for SFDC!
+jQuery has to offer. All of this is merged into one plugin for SFDC!
 
 ###Querying elements
 ----------------------
-Querying for DOM elements using jQuery is very simple. Querying for elements in a Visualforce page using jQuery is a little tricky. sfQuery simplifies this by allowing you to use standard *$Component* references.
+Querying for DOM elements using jQuery is simple and powerful. Querying for elements in a Visualforce page using 
+jQuery is a little more tricky. sfQuery simplifies this by allowing you to use the standard *$Component* object
+just like you would use any other jQuery selector. It also excepts any valid jQuery query selector statement.
 
 ```JavaScript
 // Example query selector using standard VF Component object
 var elem = sfQuery('{!$Component.mainForm.mainBlock.mainSection.elementId}');
 
+// Attaching events using a component reference
+sfQuery('{!$Component.mainForm.mainBlock.mainSection.elementId}').click(function(e) {
+	alert('Element clicked!');
+});
+
 // Since sfQuery runs on jQuery, you can use any valid jQuery selector as well!
+// Getting references to standard HTML elements by their ID
+var header = sfQuery('#headerId');
+
+// Attaching a DOM ready listener
 sfQuery(document).ready(function(e) {
 	alert('Hello from sfQuery!');
 });
 
-var header = sfQuery('#headerId');
-
+// Attaching events to standard HTML elements
 sfQuery('#headerId').on('load', function(e) {
 	alert('Header loaded!');
 });
@@ -35,6 +46,13 @@ Using the *soqlQuery()* method in sfQuery allows you to gracefully handle succes
 It also returns the records to you formatted in the more common and useful "query-list result" way.
 You can use the static method in the *jQuery.SFQuery* namespace or you can attach a soql query action to an element.
 
+__NOTE:__ You must set the API session ID before calling the `soqlQuery()` method. The session ID can be retrieved
+using `{!API.session_id}`:
+```JavaScript
+	sfQuery.setSessionId('{!API.session_id}');
+```
+
+`soqlQuery()` examples:
 ```JavaScript
 /**
 * Example using the static method
