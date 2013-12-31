@@ -1,4 +1,4 @@
-##sfQuery: jQuery plugin for Salesforce.com
+##sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
 This plugin makes using jQuery with Salesforce extremely simple. It comes bundled with functionality to ease the use of advanced Visualforce features like JS SOQL connections and JS remoting.
 
 ###Querying elements
@@ -65,8 +65,10 @@ button.soqlQuery({
 });
 ```
 
-#####soqlQuery() options
+#####soqlQuery options
 * query - The soql query to use.
 * success - Callback function used for successful query result.
 * error - Callback function used for unsuccessful query result.
+
+
 
