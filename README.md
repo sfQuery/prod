@@ -26,11 +26,14 @@ sfQuery('#headerId').on('load', function(e) {
 
 ###JS SOQL connections
 ----------------------
-You can query records in a visualforce page using the *sforce* connection. This is less than ideal because it requires a lot of setup:
+You can query for records using SOQL from the client side within a visualforce page using the *sforce* connection. 
+This can be extremely useful in some situations however there are a couple of issues with it:
 * Handling success and error conditions is not normalized and difficult
 * The records in the response of the native sforce connection are not returned in a clean "query-list" way
 
-sfQuery has 2 methods that normalize and ease the use of this functionality. You can use the static method in the *jQuery.SFQuery* namespace or you can attach a soql query action to an element.
+Using the *soqlQuery()* method in sfQuery allows you to gracefully handle success and error conditions. 
+It also returns the records to you formatted in the more common and useful "query-list result" way.
+You can use the static method in the *jQuery.SFQuery* namespace or you can attach a soql query action to an element.
 
 ```JavaScript
 /**
@@ -82,10 +85,10 @@ Javascript remoting for VF/Apex allows you to bring the power of AJAX to your VF
 same issues that plague the sforce SOQL connection interface also plague the JS remoting interface. 
 * Handling success and error conditions is not normalized and difficult
 * The records in the response of the native remoting connection are not returned in a clean "query-list" way
-* The syntax for remoting is confusing to read and prevents the creation of self documenting code
+* The syntax for remoting is confusing to read and makes it difficult to create self documenting code
 
 sfQuery has the *vfRemote()* method that allows you to easily make a remoting call. You can access this in a static context
-in the *jQuery.SFQuery* namespace or with the element bound action method.
+using the *jQuery.SFQuery* namespace or with the element bound action method.
 
 ```JavaScript
 /**
