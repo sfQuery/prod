@@ -1,4 +1,4 @@
-##sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
+## ![alt text](https://github.com/sfQuery/prod/blob/master/icon.png "sfQuery") sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
 There's no arguing that jQuery is one of the most valuable javascript libraries available. The 
 *sfQuery* plugin allows you to easily integrate jQuery with your Visualforce pages. It normalizes the way you query 
 for elements in Visualforce. It also comes packed with functionality to ease the use of advanced Visualforce 
@@ -18,7 +18,7 @@ jQuery has to offer. All of this is merged into one plugin for SFDC!
 	- [Autocomplete fields](#autocomplete-fields)
 		- [sfAutoComplete options](#sfautocomplete-options)
 
-###Installing the plugin ![alt text](https://github.com/sfQuery/prod/blob/master/icon.png "sfQuery")
+###Installing the plugin
 ----------------------
 Using the plugin is as simple as including a single JS file and CSS file on your page. __NOTE__: jQuery 
 is required. Please make sure to include it before the sfQuery JS file. jQuery 1.8+ is required.
