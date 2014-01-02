@@ -18,7 +18,7 @@ jQuery has to offer. All of this is merged into one plugin for SFDC!
 	- [Autocomplete fields](#autocomplete-fields)
 		- [sfAutoComplete options](#sfautocomplete-options)
 
-###Installing the plugin
+###Installing the plugin ![alt text](https://github.com/sfQuery/prod/blob/master/icon.png "sfQuery")
 ----------------------
 Using the plugin is as simple as including a single JS file and CSS file on your page. __NOTE__: jQuery 
 is required. Please make sure to include it before the sfQuery JS file. jQuery 1.8+ is required.
