@@ -95,7 +95,7 @@ ApexScriptUtils.getObjectInfo = function(obj) {
         result.fields = arr;
     } 
     return result;
-};bv
+};
 
 // Static method used to return a more exact description of an object
 // Return values are like "[object Object]" or "[object Array]"
