@@ -5,6 +5,19 @@ for elements in Visualforce. It also comes packed with functionality to ease the
 features like JS SOQL connections and JS remoting. The plugin is built on top of jQuery so you have access to everything
 jQuery has to offer. All of this is merged into one plugin for SFDC!
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+- [sfQuery: jQuery plugin for Salesforce.com](#sfquery-jquery-plugin-for-salesforcecom)
+	- [Installing the plugin](#installing-the-plugin)
+	- [Querying elements](#querying-elements)
+	- [JS SOQL connections](#js-soql-connections)
+			- [soqlQuery options](#soqlquery-options)
+	- [JS Remoting](#js-remoting)
+			- [vfRemote options](#vfremote-options)
+	- [Scrollable pageblock tables](#scrollable-pageblock-tables)
+			- [tableScroll options](#tablescroll-options)
+	- [Autocomplete fields](#autocomplete-fields)
+			- [sfAutoComplete options](#sfautocomplete-options)
+
 ###Installing the plugin
 ----------------------
 Using the plugin is as simple as including a single JS file and CSS file on your page. __NOTE__: jQuery 
