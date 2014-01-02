@@ -111,7 +111,7 @@ button.soqlQuery({
 });
 ```
 
-#####soqlQuery options
+####soqlQuery options
 * query - The soql query to use.
 * success - Callback function used for successful query result.
 * error - Callback function used for unsuccessful query result.
@@ -169,7 +169,7 @@ button.vfRemote({
 });
 ```
 
-#####vfRemote options
+####vfRemote options
 * controller - This is the name of your Visualforce controller.
 * methodName - The name of the @remoteAction method in the controller.
 * params - The parameters to pass to the remote action method. This can be a single parameter or an array.
@@ -195,7 +195,7 @@ sfQuery('{!$Component.mainForm.mainBlock.mainSection.tableId}')
 ```
 That's it! The table will be 150 pixels tall, and will scroll with a fixed header.
 
-#####tableScroll options
+####tableScroll options
 * height - The height for the scrolling table (in px)
 * fixedHeader - Boolean option which tells the method to enable/disable a fixed, floating header. Default is true.
 
@@ -280,7 +280,7 @@ looking table header. The resulting table would look like this:
 | Gene Point     | John Smith | jsmith | jsmith@email.com   |
 | McCarthy's Auto     | Steve Jones | sjones | sjones@email.com   |
 
-#####sfAutoComplete options
+####sfAutoComplete options
 * query - (Optional) The SOQL query used to retrieve the data set. If this is not set, a controller and methodName must be set.
 * controller - (Optional) This is the name of your Visualforce controller. If this is not set, the query option must be set.
 * methodName - (Optional) The name of the @remoteAction method in the controller. If this is not set, the query option must be set.
