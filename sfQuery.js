@@ -501,7 +501,7 @@ ApexScriptUtils.prototype.handleAutoCompleteTableNav = function(e, table) {
 
     // Arrow up
     if (e.keyCode == 38) { 
-        if(index === 2) {
+        if(index === 1) {
             // At the top row already
             return false;
         }
@@ -509,7 +509,7 @@ ApexScriptUtils.prototype.handleAutoCompleteTableNav = function(e, table) {
         currRow.removeClass('sfquery-ac-table-row-hover');
         var prevRow = table.find('tbody tr:nth-child(' + index + ')');
         prevRow.addClass('sfquery-ac-table-row-hover');
-        if(index === 2) {
+        if(index === 1) {
             // At top row, scroll header into view
             table.parent().scrollTop(0);
         } else {
@@ -520,7 +520,7 @@ ApexScriptUtils.prototype.handleAutoCompleteTableNav = function(e, table) {
     }
     // Arrow down
     if (e.keyCode == 40) { 
-        if(index === numRows) {
+        if(index === numRows - 1) {
             // At the bottom
             return false;
         }
@@ -579,7 +579,9 @@ ApexScriptUtils.prototype.getAutoCompleteTable = function(resList, state) {
             headerRow.append("<th>" + field + "</th>");
         }
     }
-    tableBody.append(headerRow);
+    var header = jQuery('<thead/>');
+    header.append(headerRow);
+    table.append(header);
 
     var firstColName = fieldList[0];
     var inputVal = null;
