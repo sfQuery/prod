@@ -924,3 +924,64 @@ jQuery.fn.sfAutoComplete = function() {
     });
 
 };
+
+ApexScriptUtils.getTableScrollExtend = function(options) {
+    return jQuery.extend({
+                fixedHeader: true,
+                height: 400
+            }, 
+            arguments[0] || {}
+        );
+};
+
+ApexScriptUtils.prototype.tableScroll = function(table, options) {
+    // Wrap table in a div container
+    // Make table header pos absolute to the top
+    table.wrap('<div class="sfquery-float-table-wrapper"/>');
+    var wrapper = table.parent();
+    wrapper.css({
+        overflow: 'auto',
+        height: options.height + 'px'
+    });
+
+    if(options.fixedHeader) {
+        var fixedHeaderCont = jQuery('<div class="sfquery-float-table-header-cont"/>');
+        this.addTableHeaderToFixedCont(fixedHeaderCont, table);
+        wrapper.append(fixedHeaderCont);
+
+        wrapper.scroll(function() {
+            var newPos = jQuery(this).scrollTop();
+            fixedHeaderCont.css({
+                top: newPos
+            });
+            if(newPos === 0) {
+                fixedHeaderCont.hide();
+            } else if(!fixedHeaderCont.is(':visible')) {
+                fixedHeaderCont.show();
+            }
+        });
+    }
+
+    
+};
+
+ApexScriptUtils.prototype.addTableHeaderToFixedCont = function(headerCont, table) {
+    var headerTable = table.clone();
+    headerTable.children('tbody').remove();
+    // Adjust table header sizes
+    var floatingCols = headerTable.find('thead > tr > th');
+    table.find('thead > tr > th').each(function(index, elem) {
+        var fullCol = jQuery(elem);
+        var cloneCol = jQuery(floatingCols[index]);
+        cloneCol.width(fullCol.width());
+    });
+
+    headerCont.append(headerTable);
+};
+
+jQuery.fn.tableScroll = function(tableOpt) {
+    var options = ApexScriptUtils.getTableScrollExtend(tableOpt);
+    return this.each(function() {
+        ApexScriptUtils.getInstance().tableScroll(jQuery(this), options);
+    });
+};

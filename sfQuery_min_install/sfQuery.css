@@ -29,3 +29,19 @@
     box-shadow: 0px 0px 5px #000000;
     /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 }
+.sfquery-float-table-wrapper {
+    position: relative;
+}
+.sfquery-float-table-header-cont {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(100, 100, 100, 0.5);
+    -moz-box-shadow: 0px 1px 10px #000000;
+    -webkit-box-shadow: 0px 1px 10px #000000;
+    box-shadow: 0px 1px 10px #000000;
+    filter: progid:DXImageTransform.Microsoft.Shadow(strength = 1, direction = 180, color = '#000000');
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(strength = 1, Direction = 180, Color = '#000000')";
+}
