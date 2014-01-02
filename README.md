@@ -1,4 +1,4 @@
-## ![alt text](https://github.com/sfQuery/prod/blob/master/icon.png "sfQuery") sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
+## ![alt text](https://github.com/sfQuery/prod/blob/master/icon.png?raw=true "sfQuery") sfQuery: jQuery plugin for [Salesforce.com](http://www.salesforce.com)
 There's no arguing that jQuery is one of the most valuable javascript libraries available. The 
 *sfQuery* plugin allows you to easily integrate jQuery with your Visualforce pages. It normalizes the way you query 
 for elements in Visualforce. It also comes packed with functionality to ease the use of advanced Visualforce 
