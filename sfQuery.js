@@ -95,25 +95,7 @@ ApexScriptUtils.getObjectInfo = function(obj) {
         result.fields = arr;
     } 
     return result;
-};
-
-/**
-* Generates code that calls the visualforce remoting
-* methods. This is done to accomodate an undefined amount
-* of params supported by the SFDC remoting script
-**/
-ApexScriptUtils.getRemotingCode = function(raString, args) {
-    var code =  'Visualforce.remoting.Manager.invokeAction('
-             +      "'" + raString + '\',';
-    for(var i = 0; i < args.length; i++) {
-        var arg = args[i];
-        var t = ApexScriptUtils.getSimpleType(arg);
-        code += (ApexScriptUtils.getSimpleType(arg) == 'string' ? "\"" + arg + "\"" : arg) + ',';
-    }
-
-    code += 'ApexScriptUtils.prototype.handleRemoteCallback.bind(this));';
-    return code;
-};
+};bv
 
 // Static method used to return a more exact description of an object
 // Return values are like "[object Object]" or "[object Array]"
@@ -147,7 +129,18 @@ ApexScriptUtils.prototype.doVfRemoteCall = function(className, method, params, c
     // To get around this, the timer set above will alert the
     // developer if the remote call doesn't return in a set
     // amount of time.
-    eval(ApexScriptUtils.getRemotingCode(raString, params));
+    var args = [];
+    args.push(raString);
+    if(ApexScriptUtils.getSimpleType(params) === 'string') {
+        args.push(params);
+    } else {
+        args = args.concat(params);
+    }
+    args.push(ApexScriptUtils.prototype.handleRemoteCallback.bind(this));
+    // Call remoting invokeAction method within context of the Manager object
+    // This is done because the invokeAction method accepts a variable amount 
+    // of parameters.
+    Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, args);
 };
 
 ApexScriptUtils.prototype.handleRemoteCallback = function(result, event) {
