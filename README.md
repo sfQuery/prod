@@ -6,7 +6,6 @@ features like JS SOQL connections and JS remoting. The plugin is built on top of
 jQuery has to offer. All of this is merged into one plugin for SFDC!
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
 - [sfQuery: jQuery plugin for Salesforce.com](#sfquery-jquery-plugin-for-salesforcecom)
 	- [Installing the plugin](#installing-the-plugin)
 	- [Querying elements](#querying-elements)
