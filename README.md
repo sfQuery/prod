@@ -179,11 +179,12 @@ button.vfRemote({
 
 ###Scrollable pageblock tables
 ----------------------
-How many times have you had a page block table that you don't want taking up the entire page? It's happened
-many times to me. With the `tableScroll()` method, you can enable scrolling on any table. This will set the height of
-the table to whatever you want it to be, then it will scroll up and down allowing the UI to remain clean
-and functional. The `tableScroll()` method will also fix the header so the user won't
-have to scroll up and down to remember what the columns were! You can  access this with the element bound action method.
+Tables are very easy to implment in VF. Like all tables however, when they become large they start
+to impact the overall user experience of the page. With the `tableScroll()` method, you can enable scrolling 
+on any table. This will set the height of the table to whatever you want it to be, then it 
+will scroll up and down allowing the UI to remain cleanand functional. The `tableScroll()` method 
+will also fix the header so the user won'thave to scroll up and down to remember what the columns were! 
+You can  access this with the element bound action method.
 
 Examples:
 ```Javascript
