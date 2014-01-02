@@ -164,6 +164,28 @@ button.vfRemote({
 * success - Callback function used for successful remoting request result.
 * error - Callback function used for unsuccessful remoting request result.
 
+###Scrollable pageblock tables
+----------------------
+How many times have you had a page block table that you don't want taking up the entire page? It's happened
+many times to me. With the `tableScroll()` method, you can enable scrolling on any table. This will set the height of
+the table to whatever you want it to be, then it will scroll up and down allowing the UI to remain clean
+and functional. The `tableScroll()` method will also fix the header so the user won't
+have to scroll up and down to remember what the columns were! You can  access this with the element bound action method.
+
+Examples:
+```Javascript
+
+sfQuery('{!$Component.mainForm.mainBlock.mainSection.tableId}')
+.tableScroll({
+    height: 150
+});
+```
+That's it! The table will be 150 pixels tall, and will scroll with a fixed header.
+
+#####tableScroll options
+* height - The height for the scrolling table (in px)
+* fixedHeader - Boolean option which tells the method to enable/disable a fixed, floating header. Default is true.
+
 ###Autocomplete fields
 ----------------------
 sfQuery makes it very simple to attach text auto-complete functionality to any input field on a VF page. As a user
@@ -173,7 +195,7 @@ a specfic keyword! Common examples of this are "@" mentions and hashtags in Chat
 allows you to search for a user to mention in the post. Using sfQuery gives you this same functionality on any input field, with any
 key combination (optional), and using any data objects you want!
 
-sfQuery has the *sfAutoComplete()* method that allows you to easily add autocomplete to an input text field. You can 
+sfQuery has the `sfAutoComplete()` method that allows you to easily add autocomplete to an input text field. You can 
 access this with the element bound action method.
 
 Here is a simple example:
