@@ -1,3 +1,4 @@
+"use strict";
 /**
 * Function to get the cursor position wihin a text field
 **/
@@ -89,7 +90,7 @@ ApexScriptUtils.getObjectInfo = function(obj) {
         result.length = obj.length;
     } else if(type == 'object') {
         var arr = [];
-        for(key in obj) {
+        for(var key in obj) {
             arr.push(key);
         }
         result.fields = arr;
@@ -131,10 +132,10 @@ ApexScriptUtils.prototype.doVfRemoteCall = function(className, method, params, c
     // amount of time.
     var args = [];
     args.push(raString);
-    if(ApexScriptUtils.getSimpleType(params) === 'string') {
-        args.push(params);
-    } else {
+    if(ApexScriptUtils.getSimpleType(params) === 'array') {
         args = args.concat(params);
+    } else {
+        args.push(params);
     }
     args.push(ApexScriptUtils.prototype.handleRemoteCallback.bind(this));
     // Call remoting invokeAction method within context of the Manager object
@@ -309,7 +310,7 @@ ApexScriptUtils.prototype.cleanQueryResult = function(results) {
 
                     var outObj = {};
                     this.parseObjectsForTable(relatedObj, null, outObj);
-                    for(relField in outObj) {
+                    for(var relField in outObj) {
                         cleanObj[relField] = outObj[relField];
                     }
                 }
@@ -326,7 +327,7 @@ ApexScriptUtils.prototype.cleanQueryResult = function(results) {
 ApexScriptUtils.prototype.parseRelatedObject = function(obj) {
     var dataObj = {};
 
-    for(key in obj) {
+    for(var key in obj) {
         var type = ApexScriptUtils.getSimpleType(obj[key]);
         if(key != 'Id' && key != 'type' && type != 'function') {
             if(type != 'object') {
@@ -343,7 +344,7 @@ ApexScriptUtils.prototype.parseObjectsForTable = function(obj, currName, outObj)
     currName = (typeof currName !== 'undefined' ? currName : null);
     // Base case is where value is not an object
     // If value is an object, append key and call with next child
-    for(key in obj) {
+    for(var key in obj) {
         var type = ApexScriptUtils.getSimpleType(obj[key]);
         var fieldName = (currName != null ? currName + '.' + key : key);
         if(type != 'object') {
@@ -962,9 +963,7 @@ ApexScriptUtils.prototype.tableScroll = function(table, options) {
                 fixedHeaderCont.show();
             }
         });
-    }
-
-    
+    }    
 };
 
 ApexScriptUtils.prototype.addTableHeaderToFixedCont = function(headerCont, table) {
@@ -979,6 +978,8 @@ ApexScriptUtils.prototype.addTableHeaderToFixedCont = function(headerCont, table
     });
 
     headerCont.append(headerTable);
+    // Adjust floating header width to original table header width
+    headerCont.width(table.children('thead').width());
 };
 
 jQuery.fn.tableScroll = function(tableOpt) {
