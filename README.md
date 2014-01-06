@@ -339,7 +339,7 @@ the table.
 (function($) {
 	
 	function attachTableAction() {
-        sfQuery('{!$Component.mainForm.mainBlock.simpleTable}')
+        $('{!$Component.mainForm.mainBlock.simpleTable}')
         .tableScroll({
             height: 150
         });
