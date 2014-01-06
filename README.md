@@ -292,3 +292,41 @@ looking table header. The resulting table would look like this:
 * exclude - (Optional) A list of fields to exclude from the result table view.
 * replace - (Optional) An object mapping field -> replace text. The replace text will be put in place of the field name in the table header
 * error - Callback function called when an error occurs with the request.
+
+###Scenario questions
+----------------------
+Below are some scenarios in which special handling *may* be required (but not always). 
+
+####Using the *rerender* attribute
+When using VF components like apex:commandbutton and apex:actionfunction you have the rerender attribute. 
+This will cause the request to only update parts of your page. If you have an sfQuery plugin action
+bound to an element which has been re-rendered, you need to re-attach the action after the re-render 
+is complete. 
+
+The best practice for this is to put the action bindings into their own function and then call that
+function when the re-render is complete. All elements that have the rerender attribute available
+also have the *oncomplete* attribute. You can use this to execute javascript when the re-render
+is complete. 
+
+Here is a simple example:
+(Visualforce)
+```HTML
+<apex:form id="mainForm">
+	<apex:pageblock id="mainBlock">
+		<apex:commandbutton 	id="theButton"
+								action="{!refreshTable}"
+								rerender="mainBlock"
+								oncomplete="attachTableActions()"
+		/>
+		<apex:pageBlockTable id="simpleTable" value="{!accountList}" var="account">
+	        <apex:column value="{!account.Id}"/>
+	        <apex:column value="{!account.Name}"/>
+	        <apex:column value="{!account.Owner.Name}"/>
+	    </apex:pageBlockTable>
+	</apex:pageblock>
+</apex:form>
+```
+```Javascript
+
+```
+
