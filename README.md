@@ -309,6 +309,7 @@ also have the *oncomplete* attribute. You can use this to execute javascript whe
 is complete. 
 
 Here is a simple example:
+
 (Visualforce)
 ```HTML
 <apex:form id="mainForm">
@@ -316,7 +317,7 @@ Here is a simple example:
 		<apex:commandbutton 	id="theButton"
 								action="{!refreshTable}"
 								rerender="mainBlock"
-								oncomplete="attachTableActions()"
+								oncomplete="attachTableAction()"
 		/>
 		<apex:pageBlockTable id="simpleTable" value="{!accountList}" var="account">
 	        <apex:column value="{!account.Id}"/>
@@ -326,7 +327,32 @@ Here is a simple example:
 	</apex:pageblock>
 </apex:form>
 ```
-```Javascript
+As you can see here, this is a simple page. There is a single button which calls the `refreshTable()` method
+in the controller. This will cause VF to rerender the page block with ID "mainBlock". The issue is that we
+have attached a `tableScroll()` action to the element using the sfQuery plugin. When the block is re-rendered
+the action will no longer be bound to the table. We can get around this using the *oncomplete* attribute of
+the command button. We will call the `attachTableActions()` method (below) which will re-bind the action to
+the table. 
 
+(Javascript)
+```Javascript
+(function($) {
+	
+	function attachTableAction() {
+        sfQuery('{!$Component.mainForm.mainBlock.simpleTable}')
+        .tableScroll({
+            height: 150
+        });
+    }
+
+    $(document).ready(function() {
+    	// When DOM is ready, attach tableScroll action to table
+    	attachTableAction();
+    });
+
+})(sfQuery);
 ```
+That's it! You can see that we create a function called `attachTableAction()` which binds the `tableScroll` action
+to the table. When initalize the table when the page is first loaded. Then, we call that function again using the
+*oncomplete* attribute whenever the page is re-rendered.
 
