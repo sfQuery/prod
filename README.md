@@ -334,7 +334,7 @@ Example:
 Following this pattern will also vastly increase the efficiency of minifying your script files.
 
 ####Using the *rerender* attribute
-When using VF components like apex:commandbutton and apex:actionfunction you have the rerender attribute. 
+The *rerender* attribute is available when using VF components like apex:commandbutton and apex:actionfunction. 
 This will cause the request to only update parts of your page. If you have an sfQuery plugin action
 bound to an element which has been re-rendered, you need to re-attach the action after the re-render 
 is complete. 
