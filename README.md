@@ -18,6 +18,7 @@ jQuery has to offer. All of this is merged into one plugin for SFDC!
 	- [Autocomplete fields](#autocomplete-fields)
 		- [sfAutoComplete options](#sfautocomplete-options)
 	- [Scenario questions](#scenario-questions)
+		- [Javascript variable scope](#javascript-variable-scope)
 		- [Using the rerender attribute](#using-the-rerender-attribute)
 
 ###Installing the plugin
@@ -298,6 +299,40 @@ looking table header. The resulting table would look like this:
 ###Scenario questions
 ----------------------
 Below are some scenarios in which special handling *may* be required (but not always). 
+
+####Javascript variable scope
+Javascript scoping can get tricky. There is a JS code pattern available to make sure your variables never conflict with global
+vars already declared elswhere on the page. To properly scope your code, you should put all your javascript code in an 
+anonymous function and pass the global vars that you want to use as parameters to the function. 
+
+Example:
+```Javascript
+/**
+* We will create an anonymous function and call it immediatly. Make sure to pass it all the 
+* global vars you want to work with inside the function. In this case, we only pass the
+* sfQuery object.
+**/
+(function($) {
+	// Put all your code here
+	// Instead of typing out "sfQuery()" everytime, now you can use the common
+	// "$" var without worrying about conflicts. "$" now references the sfQuery function.
+	$(document).ready(function() {
+		// Put code here to be executed when the DOM is ready
+	});
+})(sfQuery);
+
+// Another example where we pass sfQuery along with the window and document
+// globals.
+(function($, win, doc) {
+	// Put all your code here
+	// Instead of typing out "sfQuery()" everytime, now you can use the common
+	// "$" var without worrying about conflicts. "$" now references the sfQuery function.
+	$(document).ready(function() {
+		// Put code here to be executed when the DOM is ready
+	});
+})(sfQuery, window, window.document);
+```
+Following this pattern will also increase the efficiency of minifying your script files.
 
 ####Using the *rerender* attribute
 When using VF components like apex:commandbutton and apex:actionfunction you have the rerender attribute. 
