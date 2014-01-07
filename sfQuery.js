@@ -109,7 +109,12 @@ ApexScriptUtils.getSimpleType = function(obj) {
                 .toLowerCase();
 };
 
-ApexScriptUtils.prototype.doVfRemoteCall = function(className, method, params, callbacks) {
+/**
+* Reassign prototype to increase minification efficiency
+**/
+var AUPT = ApexScriptUtils.prototype;
+
+AUPT.doVfRemoteCall = function(className, method, params, callbacks) {
     var raString = className + '.' + method;
     ApexScriptUtils.vfRemoteCallbacks = callbacks;
     // Set the timeout check alert
@@ -137,14 +142,14 @@ ApexScriptUtils.prototype.doVfRemoteCall = function(className, method, params, c
     } else {
         args.push(params);
     }
-    args.push(ApexScriptUtils.prototype.handleRemoteCallback.bind(this));
+    args.push(AUPT.handleRemoteCallback.bind(this));
     // Call remoting invokeAction method within context of the Manager object
     // This is done because the invokeAction method accepts a variable amount 
     // of parameters.
     Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, args);
 };
 
-ApexScriptUtils.prototype.handleRemoteCallback = function(result, event) {
+AUPT.handleRemoteCallback = function(result, event) {
     // Clear dev alert timeout var
     clearTimeout(ApexScriptUtils.timeoutVar);
     if(event.status === true) {
@@ -230,7 +235,7 @@ ApexScriptUtils.getQueryExtend = function() {
         );
 };
 
-ApexScriptUtils.prototype.query = function() {
+AUPT.query = function() {
     var options = ApexScriptUtils.getQueryExtend(arguments[0]);
 
     var state = {
@@ -241,8 +246,8 @@ ApexScriptUtils.prototype.query = function() {
     sforce.connection.query(
                         options.query, 
                         {
-                            onSuccess: ApexScriptUtils.prototype.handleQueryResult.bind(this), 
-                            onFailure: ApexScriptUtils.prototype.handleQueryResult.bind(this),
+                            onSuccess: AUPT.handleQueryResult.bind(this), 
+                            onFailure: AUPT.handleQueryResult.bind(this),
                             //state that you need when the callback is called
                             // This is optional. You can use this to manage state between calls.
                             source: state
@@ -250,7 +255,7 @@ ApexScriptUtils.prototype.query = function() {
     );
 };
 
-ApexScriptUtils.prototype.handleQueryResult = function(result, state) {
+AUPT.handleQueryResult = function(result, state) {
     // Since failure and success callbacks are seperated in the SFDC 
     // AJAX API there is no error flag available. If the error handler
     // should be called, the "result" param will be a string type or
@@ -285,7 +290,7 @@ ApexScriptUtils.prototype.handleQueryResult = function(result, state) {
 * The query result from SFDC has extra data like functions.
 * This method removes any functions from the result
 **/
-ApexScriptUtils.prototype.cleanQueryResult = function(results) {
+AUPT.cleanQueryResult = function(results) {
     var cleanList = [];
     var relatedObjList = [];
     for(var i = 0; i < results.length; i++) {
@@ -324,7 +329,7 @@ ApexScriptUtils.prototype.cleanQueryResult = function(results) {
 /**
 * Parses object responses recursively to find the end value and name
 **/
-ApexScriptUtils.prototype.parseRelatedObject = function(obj) {
+AUPT.parseRelatedObject = function(obj) {
     var dataObj = {};
 
     for(var key in obj) {
@@ -340,7 +345,7 @@ ApexScriptUtils.prototype.parseRelatedObject = function(obj) {
     return dataObj;
 };
 
-ApexScriptUtils.prototype.parseObjectsForTable = function(obj, currName, outObj) {
+AUPT.parseObjectsForTable = function(obj, currName, outObj) {
     currName = (typeof currName !== 'undefined' ? currName : null);
     // Base case is where value is not an object
     // If value is an object, append key and call with next child
@@ -383,7 +388,7 @@ ApexScriptUtils.jqEsc = function(id) {
     return id;
 };
 
-ApexScriptUtils.prototype.jQuery = function(selector) {
+AUPT.jQuery = function(selector) {
     var type = ApexScriptUtils.getSimpleType(selector);
     switch(type) {
         case 'string': return jQuery(ApexScriptUtils.jqEsc(selector));
@@ -395,7 +400,7 @@ jQuery.SFQuery.getVfElem = function(vfId) {
     return ApexScriptUtils.getInstance().jQuery(vfId);
 };
 
-ApexScriptUtils.prototype.doSearchForAutoComplete = function(params) {
+AUPT.doSearchForAutoComplete = function(params) {
     if(params.obj.val() == '') {
         this.hideAutoCompleteWindow();
         return;
@@ -430,7 +435,7 @@ ApexScriptUtils.prototype.doSearchForAutoComplete = function(params) {
     }
 };
 
-ApexScriptUtils.prototype.showAutoCompleteResults = function(results) {
+AUPT.showAutoCompleteResults = function(results) {
     if(results === null || results.length === 0) {
         // Set focus back to input and return
         this.autoCompleteState.elem.focus();
@@ -449,25 +454,25 @@ ApexScriptUtils.prototype.showAutoCompleteResults = function(results) {
     table.parent().scrollTop(0);
 };
 
-ApexScriptUtils.prototype.hideAutoCompleteWindow = function() {
+AUPT.hideAutoCompleteWindow = function() {
     jQuery('#sf-ac-res-wind').empty().hide();
 };
 
-ApexScriptUtils.prototype.showAutoCompleteLoad = function() {
+AUPT.showAutoCompleteLoad = function() {
     jQuery('#sf-ac-res-wind')
         .empty()
         .append('<span>Loading...</span>');
     this.showAutoCompleteWindow(this.autoCompleteState.elem);
 };
 
-ApexScriptUtils.prototype.showNoResultsWindow = function() {
+AUPT.showNoResultsWindow = function() {
     jQuery('#sf-ac-res-wind')
         .empty()
         .append('<span style="font-weight: bold; margin: 2px;">No results found.</span>');
     this.showAutoCompleteWindow(this.autoCompleteState.elem);
 };
 
-ApexScriptUtils.prototype.showAutoCompleteWindow = function(elem) {
+AUPT.showAutoCompleteWindow = function(elem) {
     var acWind = jQuery('#sf-ac-res-wind');
     acWind.css({
         top: elem.offset().top + elem.outerHeight() + 5,
@@ -476,7 +481,7 @@ ApexScriptUtils.prototype.showAutoCompleteWindow = function(elem) {
     acWind.fadeIn();
 };
 
-ApexScriptUtils.prototype.setElemVal = function(elem, val) {
+AUPT.setElemVal = function(elem, val) {
     // If we are working with a key combo query, replace the
     // key combo and query text with the value
     // If not, just add the value to the element's value
@@ -489,13 +494,13 @@ ApexScriptUtils.prototype.setElemVal = function(elem, val) {
     }
 };
 
-ApexScriptUtils.prototype.scrollAcWindForNav = function(elem) {
+AUPT.scrollAcWindForNav = function(elem) {
     var parentWind = jQuery('#sf-ac-res-wind');
     var top = elem.position().top;
     jQuery(parentWind).animate({scrollTop: top}, 100);
 };
 
-ApexScriptUtils.prototype.handleAutoCompleteTableNav = function(e, table) {
+AUPT.handleAutoCompleteTableNav = function(e, table) {
     var currRow = table.find('.sfquery-ac-table-row-hover');
     var index = table.data('focusedRowIndex');
     var numRows = table.find('tr').length;
@@ -539,12 +544,12 @@ ApexScriptUtils.prototype.handleAutoCompleteTableNav = function(e, table) {
     }
 };
 
-ApexScriptUtils.prototype.scrollInputToBottom = function(input) {
+AUPT.scrollInputToBottom = function(input) {
     input.scrollTop(input[0].scrollHeight);
     input.focus();
 };
 
-ApexScriptUtils.prototype.getAutoCompleteTable = function(resList, state) {
+AUPT.getAutoCompleteTable = function(resList, state) {
     var _self = this;
     var table = jQuery('<table></table>');
     table.attr('tabindex', 0);
@@ -659,7 +664,7 @@ ApexScriptUtils.getAutoCompleteExtend = function() {
                 combination: null, // String combination to look for before initiating query
                 replace: {}, // Object containing a field name --> replacement field name
                 exclude: [], // List of fields to exclude from the table
-                success: ApexScriptUtils.prototype.showAutoCompleteResults.bind(ApexScriptUtils.getInstance()),
+                success: AUPT.showAutoCompleteResults.bind(ApexScriptUtils.getInstance()),
                 error: function(error, source) {
                     alert('Default error handler invoked. Check console for more info.');
                     console.log(error);
@@ -669,7 +674,7 @@ ApexScriptUtils.getAutoCompleteExtend = function() {
         );
 };
 
-ApexScriptUtils.prototype.resetAutoCompleteVars = function() {
+AUPT.resetAutoCompleteVars = function() {
     this.hideKeyComboStart();
     this.hideAutoCompleteWindow();
     this.acInQueryString = false;
@@ -678,7 +683,7 @@ ApexScriptUtils.prototype.resetAutoCompleteVars = function() {
     this.acCharCode = null;
 };
 
-ApexScriptUtils.prototype.createAutoCompleteWindow = function() {
+AUPT.createAutoCompleteWindow = function() {
     var newResWind = jQuery('<div id="sf-ac-res-wind"/>');
     newResWind.css({
         position: 'absolute',
@@ -693,7 +698,7 @@ ApexScriptUtils.prototype.createAutoCompleteWindow = function() {
     return newResWind;
 };
 
-ApexScriptUtils.prototype.showKeyComboStart = function(elem) {
+AUPT.showKeyComboStart = function(elem) {
     var keyComboStartWind = this.getKeyComboStartElem(elem);
     keyComboStartWind.css({
         position: 'absolute',
@@ -703,12 +708,12 @@ ApexScriptUtils.prototype.showKeyComboStart = function(elem) {
     keyComboStartWind.show();
 };
 
-ApexScriptUtils.prototype.hideKeyComboStart = function(elem) {
+AUPT.hideKeyComboStart = function(elem) {
     var keyComboStartWind = this.getKeyComboStartElem(elem);
     keyComboStartWind.hide();
 };
 
-ApexScriptUtils.prototype.getKeyComboStartElem = function() {
+AUPT.getKeyComboStartElem = function() {
     if(this.keyComboStartWindow == null) {
         var wind = jQuery('<div class="key-combo-start-window"/>');
         wind.append(jQuery('<span>Begin typing to search</span>'));
@@ -718,7 +723,7 @@ ApexScriptUtils.prototype.getKeyComboStartElem = function() {
     return this.keyComboStartWindow;
 };
 
-ApexScriptUtils.prototype.acOnKeyDown = function(params, elem, keyEvent) {
+AUPT.acOnKeyDown = function(params, elem, keyEvent) {
     if(elem.data('timeout') != null) {
         clearTimeout(elem.data('timeout'));
     }
@@ -848,7 +853,7 @@ ApexScriptUtils.prototype.acOnKeyDown = function(params, elem, keyEvent) {
     }
 };
 
-ApexScriptUtils.prototype.isPrintableChar = function(charCode) {
+AUPT.isPrintableChar = function(charCode) {
     return (
         /* SHIFT key */
         charCode != 16 &&
@@ -861,7 +866,7 @@ ApexScriptUtils.prototype.isPrintableChar = function(charCode) {
     );
 };
 
-ApexScriptUtils.prototype.mapKeyCode = function(isShiftKey, keyCode) {
+AUPT.mapKeyCode = function(isShiftKey, keyCode) {
     // Because we are using keydown instead of keypress it does
     // not natively handle converting key codes if the shift key
     // is pressed so we do it manually.
@@ -937,7 +942,7 @@ ApexScriptUtils.getTableScrollExtend = function(options) {
         );
 };
 
-ApexScriptUtils.prototype.tableScroll = function(table, options) {
+AUPT.tableScroll = function(table, options) {
     // Wrap table in a div container
     // Make table header pos absolute to the top
     table.wrap('<div class="sfquery-float-table-wrapper"/>');
@@ -963,10 +968,12 @@ ApexScriptUtils.prototype.tableScroll = function(table, options) {
                 fixedHeaderCont.show();
             }
         });
-    }    
+    }
+
+    
 };
 
-ApexScriptUtils.prototype.addTableHeaderToFixedCont = function(headerCont, table) {
+AUPT.addTableHeaderToFixedCont = function(headerCont, table) {
     var headerTable = table.clone();
     headerTable.children('tbody').remove();
     // Adjust table header sizes
