@@ -324,15 +324,14 @@ Example:
 // Another example where we pass sfQuery along with the window and document
 // globals.
 (function($, win, doc) {
-	// Put all your code here
-	// Instead of typing out "sfQuery()" everytime, now you can use the common
-	// "$" var without worrying about conflicts. "$" now references the sfQuery function.
-	$(document).ready(function() {
+	// Now "$" references the sfQuery function, win references the
+	// window object and doc references the window.document object
+	$(doc).ready(function() {
 		// Put code here to be executed when the DOM is ready
 	});
 })(sfQuery, window, window.document);
 ```
-Following this pattern will also increase the efficiency of minifying your script files.
+Following this pattern will also vastly increase the efficiency of minifying your script files.
 
 ####Using the *rerender* attribute
 When using VF components like apex:commandbutton and apex:actionfunction you have the rerender attribute. 
