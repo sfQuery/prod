@@ -118,6 +118,8 @@ button.soqlQuery({
 * query - The soql query to use.
 * success - Callback function used for successful query result.
 * error - Callback function used for unsuccessful query result.
+* before - Callback function called before query is executed
+* finished - Callback function called after all query operations have completed. Called whether there is an error or not.
 
 ###JS Remoting
 ----------------------
