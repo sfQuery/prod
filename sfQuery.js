@@ -221,7 +221,9 @@ jQuery.SFQuery.vfRemote = function() {
 
 ApexScriptUtils.getQueryExtend = function() {
     return jQuery.extend({
-                query: null,
+                query: null, // The SOQL query
+                before: function() { return false; }, // Function called before SOQL query is made
+                finished: function() { return false; }, // Function called after SOQL query is made
                 success: function(result, source) {
                     alert('Default success handler invoked. Check console for more info.');
                     console.log(result);
@@ -240,9 +242,10 @@ AUPT.query = function() {
 
     var state = {
         success: options.success,
-        error: options.error
+        error: options.error,
+        finished: options.finished
     };
-    
+    options.before();
     sforce.connection.query(
                         options.query, 
                         {
@@ -284,6 +287,7 @@ AUPT.handleQueryResult = function(result, state) {
     } else {
         state.error(result);
     }
+    state.finished();
 };
 
 /**
