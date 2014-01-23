@@ -298,6 +298,47 @@ looking table header. The resulting table would look like this:
 * replace - (Optional) An object mapping field -> replace text. The replace text will be put in place of the field name in the table header
 * error - Callback function called when an error occurs with the request.
 
+###Working with Metadata
+----------------------
+A very valuable tool in Apex is the metadata API. Now you can access this client side too! You can get object metadata
+as well as a full object describe. 
+
+sfQuery has the `getMetaData()` and `getObjectDescribe()` methods. `getMetaData` gives you detailed information about
+an object and `getObjectDescribe` returned detailed information about fields and child relationships.
+
+Example:
+```Javascript
+// Get information about the Account object
+jQuery.SFQuery.getObjectDescribe({
+	objectType: 'Account',
+	success: function(objInfo) {
+		alert('Is this a custom object? ' + (objInfo.custom ? 'Yes' : 'No'));
+	},
+	error: function(errorMessage) {
+		alert('An error occurred! ' + errorMessage);
+	}
+});
+
+jQuery.SFQuery.getMetaData({
+	objectType: 'Account',
+	success: function(describe) {
+		alert('The first field found was: ' + describe.fields[0].Name);
+	},
+	error: function(errorMessage) {
+		alert('An error occurred! ' + errorMessage);
+	}
+});
+```
+
+__NOTE__: Both of these methods use the low level method `makeRestRequest()`. This is meant primarily
+for internal use only to sfQuery however you can use this to make use of other endpoints in the SFDC
+REST API.
+
+####getMetaData and getObjectDescribe options
+* objectType - The object type to get the information for.
+* success - Callback function called on a successful describe result.
+* error - Callback function called when an error ocurrs. 
+
 ###Scenario questions
 ----------------------
 Below are some scenarios in which special handling *may* be required (but not always). 
