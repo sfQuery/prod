@@ -63,7 +63,8 @@ ApexScriptUtils.sessionId = null;
 ApexScriptUtils.REST_URLS = {
     Versions: '/services/data/',
     MetaData: '/services/data/v20.0/sobjects/',
-    Describe: '/services/data/v20.0/sobjects/{o}/describe/'
+    Describe: '/services/data/v20.0/sobjects/{o}/describe/',
+    ObjectDetail: '/services/data/v20.0/sobjects/{o}/{ID}'
 };
 
 // Static namespace for functions
@@ -1045,6 +1046,14 @@ jQuery.SFQuery.getMetaData = function(options) {
 jQuery.SFQuery.getObjectDescribe = function(options) {
     options = (typeof options !== 'undefined' ? options : {});
     options.url = ApexScriptUtils.REST_URLS.Describe.replace('{o}', options.objectType);
+    ApexScriptUtils.getInstance().makeRestRequest(options);
+};
+
+jQuery.SFQuery.getObjectDetail = function(options) {
+    options = (typeof options !== 'undefined' ? options : {});
+    options.url = ApexScriptUtils.REST_URLS.ObjectDetail
+                .replace('{o}', options.objectType)
+                .replace('{ID}', options.recordId);
     ApexScriptUtils.getInstance().makeRestRequest(options);
 };
 

@@ -68,6 +68,8 @@ This can be extremely useful in some situations however there are a couple of is
 * Handling success and error conditions is not normalized and difficult
 * The records in the response of the native sforce connection are not returned in a clean "query-list" way
 
+__NOTE:__ For simple queries by object ID, consider using the `getObjectDetail()` method instead.
+
 Using the *soqlQuery()* method in sfQuery allows you to gracefully handle success and error conditions. 
 It also returns the records to you formatted in the more common and useful "query-list result" way.
 You can use the static method in the *jQuery.SFQuery* namespace or you can attach a soql query action to an element.
@@ -308,7 +310,10 @@ as well as a full object describe.
 sfQuery has the `getMetaData()` and `getObjectDescribe()` methods. `getMetaData` gives you detailed information about
 an object and `getObjectDescribe` returned detailed information about fields and child relationships.
 
-Example:
+Another powerful and simple method is the `getObjectDetail()` method. All you need to do is supply the record ID 
+and type of the object and full information about that record will be returned. Examples below.
+
+####getMetaData and getObjectDescribe examples
 ```Javascript
 // Get information about the Account object
 jQuery.SFQuery.getMetaData({
@@ -333,13 +338,55 @@ jQuery.SFQuery.getObjectDescribe({
 });
 ```
 
-__NOTE__: Both of these methods use the low level sfQuery method `makeRestRequest()`. This is meant primarily
-for internal use only however you can use this to make use of other endpoints in the SFDC REST API.
-
 ####getMetaData and getObjectDescribe options
 * objectType - The object type to get the information for.
 * success - Callback function called on a successful describe result.
 * error - Callback function called when an error ocurrs. 
+
+####getObjectDetail examples
+```Javascript
+// Get object details for this Account with ID 000000000XXXX12345
+jQuery.SFQuery.getObjectDetail({
+    objectType: 'Account',
+    recordId: '000000000XXXX12345',
+    success: function(objectDetail) {
+    	alert('The account number for this account is: ' + objectDetail.AccountNumber);
+	},
+	error: function(errorMessage) {
+		alert('An error occurred! ' + errorMessage);
+	}
+});
+
+// Here we will use the getMetaData method to retrieve a list of recently
+// viewed account records and get full details on the first recently viewed account
+jQuery.SFQuery.getMetaData({
+    objectType: 'Account',
+    success: function(info) {
+        // Get the ID of the first recently viewed account
+        var Id = info.recentItems[0].Id;
+        // Get full record detail
+        jQuery.SFQuery.getObjectDetail({
+            objectType: 'Account',
+            recordId: Id,
+            success: function(objectDetail) {
+            	alert('The account number for the first recently viewed account is: ' + objectDetail.AccountNumber);
+        	},
+        	error: function(errorMessage) {
+				alert('An error occurred! ' + errorMessage);
+			}
+        });
+    }
+});
+```
+
+####getObjectDetail options
+* objectType - The object type to get the information for.
+* recordId - The ID for the record.
+* success - Callback function called on a successful describe result.
+* error - Callback function called when an error ocurrs. 
+
+__NOTE__: All of these methods use the low level sfQuery method `makeRestRequest()`. This is meant primarily
+for internal use only however you can use this to make use of other endpoints in the SFDC REST API.
 
 ###Scenario questions
 ----------------------
