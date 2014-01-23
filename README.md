@@ -309,7 +309,7 @@ an object and `getObjectDescribe` returned detailed information about fields and
 Example:
 ```Javascript
 // Get information about the Account object
-jQuery.SFQuery.getObjectDescribe({
+jQuery.SFQuery.getMetaData({
 	objectType: 'Account',
 	success: function(objInfo) {
 		alert('Is this a custom object? ' + (objInfo.custom ? 'Yes' : 'No'));
@@ -319,7 +319,8 @@ jQuery.SFQuery.getObjectDescribe({
 	}
 });
 
-jQuery.SFQuery.getMetaData({
+// Get extended information about fields on the Account object
+jQuery.SFQuery.getObjectDescribe({
 	objectType: 'Account',
 	success: function(describe) {
 		alert('The first field found was: ' + describe.fields[0].Name);
@@ -330,9 +331,8 @@ jQuery.SFQuery.getMetaData({
 });
 ```
 
-__NOTE__: Both of these methods use the low level method `makeRestRequest()`. This is meant primarily
-for internal use only to sfQuery however you can use this to make use of other endpoints in the SFDC
-REST API.
+__NOTE__: Both of these methods use the low level sfQuery method `makeRestRequest()`. This is meant primarily
+for internal use only however you can use this to make use of other endpoints in the SFDC REST API.
 
 ####getMetaData and getObjectDescribe options
 * objectType - The object type to get the information for.

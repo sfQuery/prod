@@ -25,6 +25,7 @@ function sfQuery(str) {
 
 // Set the session ID for AJAX API calls
 sfQuery.setSessionId = function(id) {
+    ApexScriptUtils.sessionId = id;
     if(typeof sforce !== 'undefined') {
         sforce.connection.sessionId = id;
     }
@@ -55,6 +56,15 @@ ApexScriptUtils.vfRemoteCallbacks = null;
 ApexScriptUtils.defaultRemoteTimeout = 30;
 // Timeout variable used
 ApexScriptUtils.timeoutVar = null;
+// Session ID for the user
+ApexScriptUtils.sessionId = null;
+
+// URL mapping object for REST enpoints
+ApexScriptUtils.REST_URLS = {
+    Versions: '/services/data/',
+    MetaData: '/services/data/v20.0/sobjects/',
+    Describe: '/services/data/v20.0/sobjects/{o}/describe/'
+};
 
 // Static namespace for functions
 if(jQuery.SFQuery) {
@@ -999,3 +1009,42 @@ jQuery.fn.tableScroll = function(tableOpt) {
         ApexScriptUtils.getInstance().tableScroll(jQuery(this), options);
     });
 };
+
+ApexScriptUtils.getRestClientExtend = function() {
+    return jQuery.extend({
+                type: 'GET',
+                url: null, // The URL of the endpoint
+                headers: null, // Additional headers for the request
+                success: function(metadata) {
+                    console.log(metadata);
+                },
+                error: function(error) {
+                    alert('Default error handler invoked. Check console for more info.');
+                    console.log(error);
+                }
+            }, 
+            arguments[0] || {}
+        );
+};
+
+AUPT.makeRestRequest = function() {
+    var options = ApexScriptUtils.getRestClientExtend(arguments[0]);
+
+    options.headers = (options.headers == null ? {} : options.headers);
+    options.headers['Authorization'] = 'Bearer ' + ApexScriptUtils.sessionId;
+
+    jQuery.ajax(options);
+};
+
+jQuery.SFQuery.getMetaData = function(options) {
+    options = (typeof options !== 'undefined' ? options : {});
+    options.url = ApexScriptUtils.REST_URLS.MetaData + options.objectType;
+    ApexScriptUtils.getInstance().makeRestRequest(options);
+};
+
+jQuery.SFQuery.getObjectDescribe = function(options) {
+    options = (typeof options !== 'undefined' ? options : {});
+    options.url = ApexScriptUtils.REST_URLS.Describe.replace('{o}', options.objectType);
+    ApexScriptUtils.getInstance().makeRestRequest(options);
+};
+
