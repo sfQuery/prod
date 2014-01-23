@@ -17,6 +17,8 @@ jQuery has to offer. All of this is merged into one plugin for SFDC!
 		- [tableScroll options](#tablescroll-options)
 	- [Autocomplete fields](#autocomplete-fields)
 		- [sfAutoComplete options](#sfautocomplete-options)
+	- [Working with Metadata](#working-with-metadata)
+		- [getMetaData and getObjectDescribe options](#getmetadata-and-getobjectdescribe-options)
 	- [Scenario questions](#scenario-questions)
 		- [Javascript variable scope](#javascript-variable-scope)
 		- [Using the rerender attribute](#using-the-rerender-attribute)
